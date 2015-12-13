@@ -113,58 +113,6 @@ public class GameDAO {
 
     }
 
-    public List<WordList> getAllWordLists() {
-
-        Session session = SessionFactoryProvider.getSessionFactory().openSession();
-        Transaction tx = null;
-        List<WordList> records = new ArrayList<>();
-
-        try {
-
-            tx = session.beginTransaction();
-            records = (ArrayList<WordList>)session.createQuery("from WordList").list();
-
-        } catch (HibernateException hex) {
-
-            hex.printStackTrace();
-
-        } finally {
-
-            session.close();
-
-        }
-
-        return records;
-
-    }
-
-    public List<GameSession> getGameSessionsForWordList(int listId) {
-
-        Session session = SessionFactoryProvider.getSessionFactory().openSession();
-        Transaction tx = null;
-        List<GameSession> records = new ArrayList<>();
-
-        try {
-
-            tx = session.beginTransaction();
-            Query query = session.createQuery("from GameSession gs where gs.listId = :listId");
-            query.setString("listId", String.valueOf(listId));
-            records = (ArrayList<GameSession>)query.list();
-
-        } catch (HibernateException hex) {
-
-            hex.printStackTrace();
-
-        } finally {
-
-            session.close();
-
-        }
-
-        return records;
-
-    }
-
     public WordList getWordListById(int listId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -216,6 +164,81 @@ public class GameDAO {
         }
 
         return record;
+
+    }
+
+    public WordList getRandomWordList() {
+
+        Random random = new Random();
+        List<WordList> wordLists = getAllWordLists();
+        WordList wordList = wordLists.get(random.nextInt(wordLists.size()));
+
+        return wordList;
+
+    }
+
+    public String getRandomGameSession(int listId) {
+
+        String gameSessionFilePath;
+
+        Random random = new Random();
+        List<GameSession> gameSessions = getGameSessionsForWordList(listId);
+        GameSession gameSession = gameSessions.get(random.nextInt(gameSessions.size()));
+        gameSessionFilePath = gameSession.getFilePath();
+
+        return gameSessionFilePath;
+
+    }
+
+    public List<WordList> getAllWordLists() {
+
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        Transaction tx = null;
+        List<WordList> records = new ArrayList<>();
+
+        try {
+
+            tx = session.beginTransaction();
+            records = (ArrayList<WordList>)session.createQuery("from WordList").list();
+
+        } catch (HibernateException hex) {
+
+            hex.printStackTrace();
+
+        } finally {
+
+            session.close();
+
+        }
+
+        return records;
+
+    }
+
+    public List<GameSession> getGameSessionsForWordList(int listId) {
+
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        Transaction tx = null;
+        List<GameSession> records = new ArrayList<>();
+
+        try {
+
+            tx = session.beginTransaction();
+            Query query = session.createQuery("from GameSession gs where gs.listId = :listId");
+            query.setString("listId", String.valueOf(listId));
+            records = (ArrayList<GameSession>)query.list();
+
+        } catch (HibernateException hex) {
+
+            hex.printStackTrace();
+
+        } finally {
+
+            session.close();
+
+        }
+
+        return records;
 
     }
 

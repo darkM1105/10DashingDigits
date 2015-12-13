@@ -1,5 +1,7 @@
 package game_resources.servlets;
 
+import game_resources.entity.InfoBean;
+import game_resources.processing.Randomizer;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,8 +18,10 @@ public class GameServlet extends HttpServlet {
 
         String url = "/game.jsp";
 
-        System.out.println(request.getParameter("username"));
-        //request.setAttribute("info", info);
+        /*Randomizer randomizer = new Randomizer();
+        InfoBean info = randomizer.generateInfoBean(request.getParameter("username"));
+
+        request.setAttribute("info", info);*/
 
         RequestDispatcher  dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);

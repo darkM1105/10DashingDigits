@@ -18,7 +18,13 @@ public class Decompressor {
 
         this.filePath = filePath;
         tempArray = readFile();
-        array = Arrays.copyOf(tempArray, tempArray.length, Integer[].class);
+        array = new Integer[tempArray.length];
+
+        for (int i = 0; i < tempArray.length; i++) {
+
+            array[i] = Integer.valueOf((String) tempArray[i]);
+
+        }
 
         return array;
 
