@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="game_resources.entity.GameSession" table="game_sessions">
+        <meta attribute="class-description">
+            This class contains information about a previous user's game session.
+        </meta>
+        <id name="sessionId" type="int" column="session_id">
+            <generator class="native" />
+        </id>
+        <property name="filePath" type="string" column="file_path" />
+        <property name="listId" type="int" column="wl_list_id" />
+    </class>
+</hibernate-mapping>

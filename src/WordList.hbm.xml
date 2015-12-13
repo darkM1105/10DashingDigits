@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="game_resources.entity.WordList" table="word_lists">
+        <meta attribute="class-description">
+            This class contains information about the word list used in each game session.
+        </meta>
+        <id name="listId" type="int" column="list_id">
+            <generator class="native" />
+        </id>
+        <property name="filePath" type="string" column="file_path" />
+    </class>
+</hibernate-mapping>

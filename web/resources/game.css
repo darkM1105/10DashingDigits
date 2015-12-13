@@ -1,0 +1,12 @@
+textarea{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 135%;
+    resize: none;
+}
+
+h1{
+    text-align: center;
+}
