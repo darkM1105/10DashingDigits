@@ -26,14 +26,28 @@ import java.util.Random;
  */
 public class GameDAO {
 
+    /**
+     * The self-generated shared 'GameDAO' object.
+     */
     private static GameDAO publicDAO = new GameDAO();
 
+    /**
+     * Shared method that returns the share 'GameDAO' object.
+     *
+     * @return  The shared 'GameDAO' object.
+     */
     public static GameDAO getPublicDAO() {
 
         return publicDAO;
 
     }
 
+    /**
+     * Method that creates a new record in the 'word_lists' table with the passed-in 'WordList' object.
+     *
+     * @param record    A full 'WordList' object that the new record will be based off of.
+     * @return      The 'list_id' of the newly generated record.
+     */
     public Integer createWordList(WordList record) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -66,6 +80,14 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that creates a new record in the 'game_sessions' table with the passed-in 'GameSession' object.
+     * At the moment, there is a hard limit of 10 'game_sessions' to each 'word_list'. Therefore, a randomly selected
+     * 'game_session' will be deleted if the limit has been reached.
+     *
+     * @param record    A full 'GameSession' object that the new record will be based off of.
+     * @return      The 'session_id' of the newly generated record.
+     */
     public Integer createGameSession(GameSession record) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -113,6 +135,12 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that returns a full 'WordList' object that has the same passed-in listId.
+     *
+     * @param listId    An integer representing the 'list_id' of the record being retrieved.
+     * @return      The full 'WordList' object with the matching passed-in listId.
+     */
     public WordList getWordListById(int listId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -140,6 +168,12 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that returns a full 'GameSession' object that has the same passed-in sessionId.
+     *
+     * @param sessionId An integer representing the 'session_id' of the record being retrieved.
+     * @return      The full 'GameSession' object with the matching passed-in sessionId.
+     */
     public GameSession getGameSessionById(int sessionId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -167,6 +201,12 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that returns a randomly selected full 'WordList' object.
+     * Side-note: This method doesn't connect to the database, but calls other methods that do.
+     *
+     * @return      The full randomly selected 'WordList' object.
+     */
     public WordList getRandomWordList() {
 
         Random random = new Random();
@@ -177,6 +217,14 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that returns a randomly selected full 'GameSession' object that has the same passed-in listId.
+     * Side-note: This method doesn't connect to the database, but calls other methods that do.
+     *
+     * @param listId    An integer representing the 'wl_list_id' that has to match in the randomly selected
+     *                  'GameSession' object.
+     * @return      The string representing the 'file_path' of the randomly selected 'GameSession' object.
+     */
     public String getRandomGameSession(int listId) {
 
         String gameSessionFilePath;
@@ -190,6 +238,11 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that returns a list representing all 'WordList' objects based off of all 'word_list' records.
+     *
+     * @return      A list representing all 'WordList' objects based off of all 'word_list' records.
+     */
     public List<WordList> getAllWordLists() {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -215,6 +268,14 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that returns a list representing all 'GameSession' objects based off of all 'game_session' records with
+     * the same passed-in listId.
+     *
+     * @param listId    An integer representing the 'wl_list_id' that has to match in the selected 'GameSession' objects.
+     * @return      A list representing all 'GameSession' objects based off of all 'game_session' records with the same
+     *              passed-in listId.
+     */
     public List<GameSession> getGameSessionsForWordList(int listId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -242,6 +303,12 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that deletes a 'word_list' record representing the 'WordList' object with the same passed-in listId. In
+     * addition, it also deletes the actual file represented by the filepath in the 'WordList' object.
+     *
+     * @param listId    An integer representing the 'list_id' of the record being deleted.
+     */
     public void deleteWordList(int listId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -286,6 +353,13 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that deletes all 'game_session' records representing the 'GameSession' objects with the same passed-in
+     * wordListId. In addition, it also deletes the actual files represented by the filepaths in the 'GameSession'
+     * objects.
+     *
+     * @param listId    An integer representing the 'wl_list_id' of the records being deleted.
+     */
     public void deleteGameSessionsForWordList(int listId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
@@ -327,6 +401,12 @@ public class GameDAO {
 
     }
 
+    /**
+     * Method that deletes the 'game_session' record representing the 'GameSession' object with the same passed-in
+     * sessionId. In addition, it also deletes the actual file represented by the filepath in the 'GameSession' object.
+     *
+     * @param sessionId An integer representing the 'session_id' of the record being deleted.
+     */
     public void deleteOlderGameSession(int sessionId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();

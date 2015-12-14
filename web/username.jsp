@@ -5,7 +5,7 @@
     <title>Username</title>
 </head>
 <body>
-    <form method="post" action="/game">
+    <form method="post" action="/pre-game">
         Username:<input type="text" name="username" value="${info}">
         <input type="submit" value="Submit">
     </form>

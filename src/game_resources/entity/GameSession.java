@@ -5,19 +5,30 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Created by Matthew on 12/7/2015.
+ * A simple bean that represents a record in the 'game_sessions' table.
+ *
+ * @author mrclark@madisoncollege.edu
  */
 
 @Entity
 @Table(name = "game_sessions")
 public class GameSession {
 
+    /**
+     * A unique auto-incremented value representing this specific object.
+     */
     @Column(name = "session_id")
     private int sessionId;
 
+    /**
+     * A value that represents a unique record in the 'word_lists' table.
+     */
     @Column(name = "wl_list_id")
     private int listId;
 
+    /**
+     * The absolute file path that points to the file represented by this object.
+     */
     @Column(name = "file_path")
     private String filePath;
 
@@ -57,8 +68,18 @@ public class GameSession {
 
     }
 
+    /**
+     * A simple no-argument constructor.
+     */
     public GameSession() {}
 
+    /**
+     * A simple, currently unused, constructor that can generate a full object.
+     *
+     * @param sessionId A unique auto-incremented value representing this specific object.
+     * @param listId    A value that represents a unique record in the 'word_lists' table.
+     * @param filePath  The absolute file path that points to the file represented by this object.
+     */
     public GameSession(int sessionId, int listId, String filePath) {
 
         this.sessionId = sessionId;
@@ -67,6 +88,11 @@ public class GameSession {
 
     }
 
+    /**
+     * A simple toString() method that returns all values.
+     *
+     * @return A String that contains all variable names and their values.
+     */
     public String toString() {
 
         return "sessionId: " + sessionId + "; listId: " + listId + "; filePath: " + filePath;

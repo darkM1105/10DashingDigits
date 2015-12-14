@@ -2,8 +2,12 @@ textarea{
     margin-bottom: 15px;
     margin-left: auto;
     margin-right: auto;
-    font-size: 135%;
+    font-size: 175%;
     resize: none;
+    line-height: 250%;
+    padding: 10px;
+    padding-left: 22px;
+    padding-right: 22px;
 }
 
 h1{

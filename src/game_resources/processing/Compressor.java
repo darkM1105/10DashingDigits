@@ -1,7 +1,6 @@
 package game_resources.processing;
 
 import game_resources.entity.GameSession;
-import game_resources.entity.InfoBean;
 import game_resources.entity.WordList;
 import game_resources.persistence.GameDAO;
 

@@ -5,16 +5,24 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Created by Matthew on 12/7/2015.
+ * A simple bean that represents a record in the 'word_lists' table.
+ *
+ * @author mrclark@madisoncollege.edu
  */
 
 @Entity
 @Table(name = "word_lists")
 public class WordList {
 
+    /**
+     * A unique auto-incremented value representing this specific object.
+     */
     @Column(name = "list_id")
     private int listId;
 
+    /**
+     * The absolute file path that points to the file represented by this object.
+     */
     @Column(name = "file_path")
     private String filePath;
 
@@ -42,8 +50,17 @@ public class WordList {
 
     }
 
+    /**
+     * A simple no-argument constructor.
+     */
     public WordList() {}
 
+    /**
+     * A simple, currently unused, constructor that can generate a full object.
+     *
+     * @param listId    A unique auto-incremented value representing this specific object.
+     * @param filePath  The absolute file path that points to the file represented by this object.
+     */
     public WordList(int listId, String filePath) {
 
         this.listId = listId;
@@ -51,6 +68,11 @@ public class WordList {
 
     }
 
+    /**
+     * A simple toString() method that returns all values.
+     *
+     * @return A String that contains all variable names and their values.
+     */
     public String toString() {
 
         return "listId: " + listId + "; filePath: " + filePath;

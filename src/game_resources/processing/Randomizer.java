@@ -1,16 +1,16 @@
 package game_resources.processing;
 
-import game_resources.entity.InfoBean;
+import game_resources.entity.PreGameInfoBean;
 import game_resources.entity.WordList;
 import game_resources.persistence.GameDAO;
 
 public class Randomizer {
 
-    private InfoBean bean = new InfoBean();
+    private PreGameInfoBean bean = new PreGameInfoBean();
     private GameDAO dao = GameDAO.getPublicDAO();
     private Decompressor decompressor = new Decompressor();
 
-    public InfoBean generateInfoBean(String username) {
+    public PreGameInfoBean generateInfoBean(String username) {
 
         WordList wordList = dao.getRandomWordList();
         String usedWordList = wordList.getFilePath();
@@ -24,6 +24,7 @@ public class Randomizer {
         bean.setGameSessionArray(gameSessionArray);
         bean.setUsername(username);
         bean.setOpponentUsername(opponentUsername);
+        bean.setListId(wordList.getListId());
 
         return bean;
 
