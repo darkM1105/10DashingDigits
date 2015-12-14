@@ -36,15 +36,13 @@ $(document).ready(function(){
         lastentry = userList.val();
     });
 
-    var username = $("#username").innerHTML;
-    alert(username);
     $.get("/game", function(obj){
-
-        object = obj;
-
+        $("#username").html(obj['username']);
+        $("#opponentUsername").html(obj['opponentUsername']);
+        for (var i = 0; i < 30; i++){
+            $("#wordList").value += obj['wordListArray'];
+        }
     });
-    alert(obj);
-    $("#opponentUsername").html(obj['opponentUsername']);
 
 });
 
