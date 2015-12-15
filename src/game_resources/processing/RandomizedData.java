@@ -6,12 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A class that generates random raw data for either a new 'GameSession' or 'WordList' object.
+ *
+ * @author mrclark@madisoncollege.edu
+ */
 public class RandomizedData {
 
     private Random random = new Random();
     private BufferedReader reader;
     private URL url;
 
+    /**
+     * Method that makes a request to 'random.org' and receives a string of 270 integers.
+     *
+     * @return      A full array that is necessary for a new 'GameSession' object.
+     */
     public Integer[] generateRandomGameSessionData() {
 
         List<Integer> tempArray = new ArrayList<Integer>();
@@ -28,6 +38,7 @@ public class RandomizedData {
 
             }
 
+          //If the web request fails in any way, a server-side randomly generated array will be created instead.
         } catch (Exception e) {
 
             System.out.println("Random game session generation by internet has failed. Generating a game session by server-side instead.");
@@ -46,6 +57,11 @@ public class RandomizedData {
 
     }
 
+    /**
+     * Method that makes a request to 'random.org' and receives a string of 30 strings that are 6 characters long each.
+     *
+     * @return      A full array that is necessary for a new 'WordList' object.
+     */
     public String[] generateRandomWordListData() {
 
         List<String> tempArray = new ArrayList<String>();
@@ -62,6 +78,7 @@ public class RandomizedData {
 
             }
 
+          //If the web request fails in any way, a server-side randomly generated array will be created instead.
         } catch (Exception e) {
 
             System.out.println("Random word list generation by internet has failed. Generating a word list by server-side instead.");

@@ -1,5 +1,6 @@
 package game_resources.servlets;
 
+import game_resources.entity.Username;
 import game_resources.processing.RandomizedName;
 import java.io.*;
 import javax.servlet.*;
@@ -20,6 +21,17 @@ public class UsernameServlet extends HttpServlet {
         String randomName = randomizedName.generateRandomName();
 
         request.setAttribute("info", randomName);
+
+        RequestDispatcher  dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String url = "/game.jsp";
+
+        Username.setUsername(request.getParameter("username"));
 
         RequestDispatcher  dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);

@@ -3,7 +3,6 @@ var userList;
 var output;
 var lastentry = "";
 var i = 0;
-var object;
 
 $(document).ready(function(){
 
@@ -16,9 +15,13 @@ $(document).ready(function(){
     var lastTime;
     var sameCharacter;
 
-    userList.focusout(function(){
-        alert();
-    });
+    var gameSession;
+    var username;
+    var listId;
+    var list;
+
+    var wordListValue = "";
+    var opponentTextArea = "";
 
     userList.keyup(function(e) {
         i = userList.val().length - 1;
@@ -37,41 +40,50 @@ $(document).ready(function(){
     });
 
     $.get("/game", function(obj){
-        $("#username").html(obj['username']);
+        username = (obj['username']);
+        listId = (obj['listId']);
+        gameSession = (obj['gameSessionArray']);
+        $("#username").html(username);
         $("#opponentUsername").html(obj['opponentUsername']);
-        for (var i = 0; i < 30; i++){
-            $("#wordList").value += obj['wordListArray'];
+        list = (obj['wordListArray']);
+        for(var i = 0; i < list.length; i++) {
+            wordListValue += (list[i] + " ");
         }
+        $("#wordList").val(wordListValue);
     });
+
+    $("h1").click(function(){
+
+        var myObject = new Object();
+        myObject.username = $("#username").html();
+        for(var i = 0; i < 270; i++){
+            gameSession.push(1);
+        }
+        myObject.gameSession = gameSession;
+        myObject.listId = listId;
+        var myString = JSON.stringify(myObject);
+
+        $.post("/post-game", {"info":myString}, function(){
+            window.location = "/index.jsp";
+        });
+
+    });
+
+    $("#opponent").click(function(){
+
+        for (var i = 0; i < gameSession.length; i++){
+
+            setTimeout(doOpponentAction(i), gameSession[i]);
+
+        }
+
+    });
+
+    function doOpponentAction(i) {
+
+        opponentTextArea = wordListValue.substring(0, (i + 1));
+        $("#opponent").val(opponentTextArea);
+
+    }
 
 });
-
-
-    /*var myObject = new Object();
-    myObject.username = "Dante1105"
-    var array = [];
-    for(var i = 0; i < 270; i++){
-        array.push(1);
-    }
-    myObject.gameSession = array;
-    myObject.listId = 5;
-    var myString = JSON.stringify(myObject);
-
-    window.location = "/post-game?info=" + myString;*/
-
-    /*$.ajax({
-        url: '/post-game',
-        type: 'POST',
-        dataType: 'json',
-        data: "info=" + myString,
-        success: function(result) {
-            alert('SUCCESS');
-        }
-    });
-
-     $.post(
-
-         "/post-game",
-         myString
-
-     );*/

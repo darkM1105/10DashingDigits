@@ -17,7 +17,7 @@
         <h1>Welcome to "10 Dashing Digits"</h1>
         <textarea id="wordList" rows="3" cols="70" readonly tabindex="-1"></textarea>
         <br>
-        <h4 id="username">${username}</h4>
+        <h4 id="username"></h4>
         <textarea id="user" rows="3" cols="70" autofocus></textarea>
         <br>
         <h4 id="opponentUsername"></h4>

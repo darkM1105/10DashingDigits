@@ -7,10 +7,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A class that reads a given file and outputs the raw data from the file.
+ *
+ * @author mrclark@madisoncollege.edu
+ */
 public class Decompressor {
 
     private String filePath;
 
+    /**
+     * Method that reads the 'GameSession' file of the corresponding filepath.
+     *
+     * @param filePath  The filepath of the file to be read.
+     * @return      An Integer array representing all raw data from read file.
+     */
     public Integer[] processGameSession(String filePath) {
 
         Integer[] array;
@@ -30,6 +41,12 @@ public class Decompressor {
 
     }
 
+    /**
+     * Method that reads the 'WordList' file of the corresponding filepath.
+     *
+     * @param filePath  The filepath of the file to be read.
+     * @return      An String array representing all raw data from read file.
+     */
     public String[] processWordList(String filePath) {
 
         String[] array;
@@ -43,6 +60,11 @@ public class Decompressor {
 
     }
 
+    /**
+     * Method that actually reads the file.
+     *
+     * @return      An object array that will be converted to the return value of the method that called it.
+     */
     private Object[] readFile() {
 
         List<Object> tempArray = new ArrayList<>();

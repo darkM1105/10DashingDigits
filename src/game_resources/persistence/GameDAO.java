@@ -31,11 +31,6 @@ public class GameDAO {
      */
     private static GameDAO publicDAO = new GameDAO();
 
-    /**
-     * Shared method that returns the share 'GameDAO' object.
-     *
-     * @return  The shared 'GameDAO' object.
-     */
     public static GameDAO getPublicDAO() {
 
         return publicDAO;

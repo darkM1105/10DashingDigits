@@ -20,10 +20,10 @@ public class PostGameServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/index.jsp";
+        /*String url = "/index.jsp";
 
         RequestDispatcher  dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+        dispatcher.forward(request, response);*/
 
     }
 

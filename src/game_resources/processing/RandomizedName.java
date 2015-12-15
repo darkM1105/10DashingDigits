@@ -5,8 +5,18 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Random;
 
+/**
+ * A class that generates a random optional username.
+ *
+ * @author mrclark@madisoncollege.edu
+ */
 public class RandomizedName {
 
+    /**
+     * Method that makes a request to 'random.org' and generates a username based of it's response.
+     *
+     * @return  A string representing the optional username.
+     */
     public String generateRandomName() {
 
         URL characterURL;
@@ -17,6 +27,7 @@ public class RandomizedName {
 
         try {
 
+            //Retrieves 2 different characters and generates a username based off of them.
             characterURL = new URL("https://www.random.org/strings/?num=2&len=1&upperalpha=on&unique=on&format=plain&rnd=new");
             reader = new BufferedReader(new InputStreamReader(characterURL.openStream()));
 
@@ -26,8 +37,10 @@ public class RandomizedName {
 
             }
 
+            //Throw on a random number for good measure.
             randomName += (random.nextInt(10000) + 1);
 
+          //If the web request fails in any way, a server-side randomly generated username will be created instead.
         } catch (Exception e) {
 
             System.out.println("Random name generation by internet has failed. Generating a name by server-side instead.");
@@ -51,6 +64,12 @@ public class RandomizedName {
 
     }
 
+    /**
+     * Method that converts a character to it's military phonetic equivalent.
+     *
+     * @param aChar     A string to be converted.
+     * @return  The military phonetic equivalent to the passed in character.
+     */
     private String getMilitaryPhoneticString(String aChar) {
 
         String militaryPhoneticString = "";
