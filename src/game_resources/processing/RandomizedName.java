@@ -1,5 +1,7 @@
 package game_resources.processing;
 
+//import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -11,6 +13,7 @@ import java.util.Random;
  * @author mrclark@madisoncollege.edu
  */
 public class RandomizedName {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * Method that makes a request to 'random.org' and generates a username based of it's response.
@@ -24,6 +27,8 @@ public class RandomizedName {
         String line;
         Random random = new Random();
         String randomName = "";
+
+        //logger.info("Generating random name.");
 
         try {
 
@@ -43,7 +48,7 @@ public class RandomizedName {
           //If the web request fails in any way, a server-side randomly generated username will be created instead.
         } catch (Exception e) {
 
-            System.out.println("Random name generation by internet has failed. Generating a name by server-side instead.");
+            //logger.info("Random name generation by internet has failed. Generating a name by server-side instead.");
 
             char aChar;
             String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -59,6 +64,8 @@ public class RandomizedName {
             randomName += (random.nextInt(10000) + 1);
 
         }
+
+        //logger.info("Random name: " + randomName);
 
         return randomName;
 

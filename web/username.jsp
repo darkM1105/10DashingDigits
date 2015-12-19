@@ -3,11 +3,13 @@
 <html>
 <head>
     <title>Username</title>
+    <link rel="stylesheet" type="text/css" href="resources/site.css">
 </head>
 <body>
-    <form method="post" action="/username">
-        Username:<input type="text" name="username" value="${info}">
-        <input type="submit" value="Submit">
-    </form>
+<h1>"10 Dashing Digits"</h1>
+<form method="post" action="/game">
+    Username: <input id="usernameInput" type="text" name="username" value="${info}">
+    <input type="submit" value="Submit">
+</form>
 </body>
 </html>

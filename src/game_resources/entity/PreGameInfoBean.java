@@ -1,6 +1,8 @@
 package game_resources.entity;
 
 
+//import org.apache.log4j.Logger;
+
 /**
  * A simple bean that gets passed to the 'game.jsp' page in JSON format. It contains all necessary data needed for the
  * game to function as well as some data needed to update the database after the game is completed.
@@ -8,6 +10,7 @@ package game_resources.entity;
  * @author mrclark@madisoncollege.edu
  */
 public class PreGameInfoBean {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * An array of pre-generated strings, read from a file, that represents the text that must be typed during the game.
@@ -132,7 +135,7 @@ public class PreGameInfoBean {
     public String toString() {
 
         return "wordListArray size: " + wordListArray.length + "; gameSessionArray size: " + gameSessionArray.length
-                + "; username: " + username + "opponentUsername: " + opponentUsername + "; listId: " + listId;
+                + "; username: " + username + "; opponentUsername: " + opponentUsername + "; listId: " + listId;
 
     }
 

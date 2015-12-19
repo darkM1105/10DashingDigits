@@ -1,8 +1,11 @@
 package game_resources.processing;
 
+import game_resources.custom_exceptions.DataArrayBadSizeException;
 import game_resources.entity.GameSession;
 import game_resources.entity.WordList;
 import game_resources.persistence.GameDAO;
+//import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,9 +17,10 @@ import java.util.Date;
  * @author mrclark@madisoncollege.edu
  */
 public class Compressor {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     //Default empty arrays.
-    private Integer[] sessionArray = new Integer[270];
+    private Integer[] sessionArray = new Integer[210];
     private String[] wordListArray = new String[30];
 
     /**
@@ -30,13 +34,41 @@ public class Compressor {
      */
     public int process(Integer[] sessionArray, int wordListId, String username) {
 
-        String filePath;
-        int record;
+        //logger.info("Processing game session.");
 
-        this.sessionArray = sessionArray;
-        filePath = createFile("game_session", wordListId, username);
-        GameSession gameSession = new GameSession(0, wordListId, filePath);
-        record = GameDAO.getPublicDAO().createGameSession(gameSession);
+        String filePath;
+        int record = 0;
+
+        try {
+
+            if (sessionArray.length != 210) {
+
+                throw new DataArrayBadSizeException();
+
+            }
+
+            this.sessionArray = sessionArray;
+            filePath = createFile("game_session", wordListId, username);
+            GameSession gameSession = new GameSession(0, wordListId, filePath);
+            //logger.info(gameSession.toString());
+            record = GameDAO.getPublicDAO().createGameSession(gameSession);
+
+        } catch (DataArrayBadSizeException dabs) {
+
+            dabs.printStackTrace();
+            //logger.fatal("DataArrayBadSizeException", dabs);
+
+        } finally {
+
+            if (sessionArray.length != 210) {
+
+                return -1;
+
+            }
+
+        }
+
+        //logger.info(record);
 
         return record;
 
@@ -51,14 +83,42 @@ public class Compressor {
      */
     public int process(String[] wordListArray) {
 
-        String filePath;
-        int record;
+        //logger.info("Processing word list.");
 
-        this.wordListArray = wordListArray;
-        filePath = createFile("word_list", 0, "");
-        WordList wordList = new WordList(0, filePath);
-        record = GameDAO.getPublicDAO().createWordList(wordList);
-        new File("C:\\10DashingDigitsDB\\GameSessions\\List" + record).mkdir();
+        String filePath;
+        int record = 0;
+
+        try {
+
+            if (wordListArray.length != 30) {
+
+                throw new DataArrayBadSizeException();
+
+            }
+
+            this.wordListArray = wordListArray;
+            filePath = createFile("word_list", 0, "");
+            WordList wordList = new WordList(0, filePath);
+            //logger.info(wordList.toString());
+            record = GameDAO.getPublicDAO().createWordList(wordList);
+            new File("C:\\10DashingDigitsDB\\GameSessions\\List" + record).mkdir();
+
+        } catch (DataArrayBadSizeException dabs) {
+
+            dabs.printStackTrace();
+            //logger.fatal("DataArrayBadSizeException", dabs);
+
+        } finally {
+
+            if (wordListArray.length != 30) {
+
+                return -1;
+
+            }
+
+        }
+
+        //logger.info(record);
 
         return record;
 
@@ -76,7 +136,6 @@ public class Compressor {
 
         String finalName = "";
         String directory = "";
-        String userName = username + "ts";
         String tempName;
 
         //Assign values to local variables based on fileType.
@@ -91,14 +150,14 @@ public class Compressor {
         }
 
         //Filepath format.
-        tempName = "C:\\10DashingDigitsDB\\" + directory + "\\" + userName + createTimeStamp() + ".txt";
+        tempName = "C:\\10DashingDigitsDB\\" + directory + "\\" + username + createTimeStamp() + ".txt";
 
         //Creating new file.
         try(PrintWriter printer = new PrintWriter(new BufferedWriter(new FileWriter(tempName)))) {
 
             if (fileType.equals("game_session")) {
 
-                //Iterates 270 times and throws each value on it's own separate line.
+                //Iterates 210 times and throws each value on it's own separate line with the username at the end.
                 for (int i = 0; i < sessionArray.length; i++) {
 
                     printer.print(sessionArray[i] + " ");
@@ -106,6 +165,11 @@ public class Compressor {
                     if (i != (sessionArray.length - 1)) {
 
                         printer.println();
+
+                    } else {
+
+                        printer.println();
+                        printer.print(username + " ");
 
                     }
 
@@ -142,6 +206,7 @@ public class Compressor {
         } catch (IOException e) {
 
             e.printStackTrace();
+            //logger.fatal("IOException", e);
 
         }
 

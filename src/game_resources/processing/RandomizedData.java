@@ -1,5 +1,7 @@
 package game_resources.processing;
 
+//import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.Random;
  * @author mrclark@madisoncollege.edu
  */
 public class RandomizedData {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     private Random random = new Random();
     private BufferedReader reader;
@@ -24,12 +27,14 @@ public class RandomizedData {
      */
     public Integer[] generateRandomGameSessionData() {
 
-        List<Integer> tempArray = new ArrayList<Integer>();
+        List<Integer> tempArray = new ArrayList<>();
         String line;
+
+        //logger.info("Generating random game session data.");
 
         try {
 
-            url = new URL("https://www.random.org/integers/?num=270&min=50&max=1000&col=1&base=10&format=plain&rnd=new");
+            url = new URL("https://www.random.org/integers/?num=210&min=50&max=1000&col=1&base=10&format=plain&rnd=new");
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
             while ((line = reader.readLine()) != null) {
@@ -41,7 +46,7 @@ public class RandomizedData {
           //If the web request fails in any way, a server-side randomly generated array will be created instead.
         } catch (Exception e) {
 
-            System.out.println("Random game session generation by internet has failed. Generating a game session by server-side instead.");
+            //logger.info("Random game session generation by internet has failed. Generating a game session by server-side instead.");
 
             for (int i = 1; i <= 270; i++) {
 
@@ -52,6 +57,8 @@ public class RandomizedData {
         }
 
         Integer[] array = tempArray.toArray(new Integer[tempArray.size()]);
+
+        //logger.info("Array size: " + array.length);
 
         return array;
 
@@ -64,12 +71,14 @@ public class RandomizedData {
      */
     public String[] generateRandomWordListData() {
 
-        List<String> tempArray = new ArrayList<String>();
+        List<String> tempArray = new ArrayList<>();
         String line;
+
+        //logger.info("Generating random word list data.");
 
         try {
 
-            url = new URL("https://www.random.org/strings/?num=30&len=6&digits=on&upperalpha=on&loweralpha=on&unique=off&format=plain&rnd=new");
+            url = new URL("https://www.random.org/strings/?num=30&len=6&loweralpha=on&unique=off&format=plain&rnd=new");
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
             while ((line = reader.readLine()) != null) {
@@ -81,9 +90,9 @@ public class RandomizedData {
           //If the web request fails in any way, a server-side randomly generated array will be created instead.
         } catch (Exception e) {
 
-            System.out.println("Random word list generation by internet has failed. Generating a word list by server-side instead.");
+            //logger.info("Random word list generation by internet has failed. Generating a word list by server-side instead.");
 
-            String alphabet = "Aa0BbCc1DdEe2FfGg3HhIi4JjKk5LlMm6NnOo7PpQq8RrSs9TtUuVvWwXxYyZz";
+            String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
             for (int i = 0; i < 30; i++) {
 
@@ -103,6 +112,8 @@ public class RandomizedData {
         }
 
         String[] array = tempArray.toArray(new String[tempArray.size()]);
+
+        //logger.info("Array size: " + array.length);
 
         return array;
 

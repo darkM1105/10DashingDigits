@@ -1,8 +1,11 @@
 package game_resources.persistence;
 
+import game_resources.custom_exceptions.ImpossibleRecordDataException;
 import game_resources.entity.GameSession;
 import game_resources.entity.WordList;
+import game_resources.processing.DataTester;
 import org.apache.commons.io.FileUtils;
+//import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -25,15 +28,31 @@ import java.util.Random;
  * @author  Matthew Clark
  */
 public class GameDAO {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * The self-generated shared 'GameDAO' object.
      */
     private static GameDAO publicDAO = new GameDAO();
+    private static int wordListCount;
 
     public static GameDAO getPublicDAO() {
 
         return publicDAO;
+
+    }
+
+    public static int getWordListCount() {
+
+        return wordListCount;
+
+    }
+
+    private void setWordListCount() {
+
+        int count = GameDAO.getPublicDAO().getAllWordLists().size();
+
+        GameDAO.wordListCount = count;
 
     }
 
@@ -45,12 +64,15 @@ public class GameDAO {
      */
     public Integer createWordList(WordList record) {
 
+        //logger.info("Adding word list to database.");
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
         Integer listId = null;
 
         try {
 
+            dataTester.testForImpossibleData(record);
             tx = session.beginTransaction();
             listId = (Integer)session.save(record);
             tx.commit();
@@ -64,12 +86,21 @@ public class GameDAO {
             }
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird){
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 
+            setWordListCount();
             session.close();
 
         }
+
+        //logger.info("Created word list id: " + listId);
 
         return listId;
 
@@ -85,12 +116,15 @@ public class GameDAO {
      */
     public Integer createGameSession(GameSession record) {
 
+        //logger.info("Adding game session to database.");
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
         Integer sessionId = null;
 
         try {
 
+            dataTester.testForImpossibleData(record);
             //First ensuring that the database isn't full with a max record limit of 10 per word list.
             List<GameSession> records = getGameSessionsForWordList(record.getListId());
             if (records.size() == 10) {
@@ -119,12 +153,20 @@ public class GameDAO {
             }
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird) {
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 
             session.close();
 
         }
+
+        //logger.info("Created game session id: " + sessionId);
 
         return sessionId;
 
@@ -138,12 +180,15 @@ public class GameDAO {
      */
     public WordList getWordListById(int listId) {
 
+        //logger.info("Getting word list with id " + listId);
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
         WordList record = null;
 
         try {
 
+            dataTester.testForImpossibleData(listId);
             tx = session.beginTransaction();
             Query query = session.createQuery("from WordList wl where wl.listId = :listId");
             query.setString("listId", String.valueOf(listId));
@@ -152,6 +197,12 @@ public class GameDAO {
         } catch (HibernateException hex) {
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird) {
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 
@@ -171,12 +222,15 @@ public class GameDAO {
      */
     public GameSession getGameSessionById(int sessionId) {
 
+        //logger.info("Getting game session with id " + sessionId);
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
         GameSession record = null;
 
         try {
 
+            dataTester.testForImpossibleData(sessionId);
             tx = session.beginTransaction();
             Query query = session.createQuery("from GameSession gs where gs.sessionId = :sessionId");
             query.setString("sessionId", String.valueOf(sessionId));
@@ -185,6 +239,12 @@ public class GameDAO {
         } catch (HibernateException hex) {
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird) {
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 
@@ -204,6 +264,7 @@ public class GameDAO {
      */
     public WordList getRandomWordList() {
 
+        //logger.info("Getting random word list.");
         Random random = new Random();
         List<WordList> wordLists = getAllWordLists();
         WordList wordList = wordLists.get(random.nextInt(wordLists.size()));
@@ -224,10 +285,21 @@ public class GameDAO {
 
         String gameSessionFilePath;
 
+        //logger.info("Getting random game session with list id " + listId);
         Random random = new Random();
         List<GameSession> gameSessions = getGameSessionsForWordList(listId);
-        GameSession gameSession = gameSessions.get(random.nextInt(gameSessions.size()));
-        gameSessionFilePath = gameSession.getFilePath();
+        if (gameSessions.size() > 0) {
+
+            GameSession gameSession = gameSessions.get(random.nextInt(gameSessions.size()));
+            gameSessionFilePath = gameSession.getFilePath();
+
+        } else {
+
+            gameSessionFilePath = null;
+
+        }
+
+        //logger.info("Game session file path: " + gameSessionFilePath);
 
         return gameSessionFilePath;
 
@@ -240,6 +312,7 @@ public class GameDAO {
      */
     public List<WordList> getAllWordLists() {
 
+        //logger.info("Getting all word lists.");
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
         Transaction tx = null;
         List<WordList> records = new ArrayList<>();
@@ -252,12 +325,15 @@ public class GameDAO {
         } catch (HibernateException hex) {
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
 
         } finally {
 
             session.close();
 
         }
+
+        //logger.info("List size: " + records.size());
 
         return records;
 
@@ -273,12 +349,15 @@ public class GameDAO {
      */
     public List<GameSession> getGameSessionsForWordList(int listId) {
 
+        //logger.info("Getting all game sessions for word list with id " + listId);
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
         List<GameSession> records = new ArrayList<>();
 
         try {
 
+            dataTester.testForImpossibleData(listId);
             tx = session.beginTransaction();
             Query query = session.createQuery("from GameSession gs where gs.listId = :listId");
             query.setString("listId", String.valueOf(listId));
@@ -287,12 +366,21 @@ public class GameDAO {
         } catch (HibernateException hex) {
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird) {
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
+
 
             session.close();
 
         }
+
+        //logger.info("List size: " + records.size());
 
         return records;
 
@@ -306,12 +394,16 @@ public class GameDAO {
      */
     public void deleteWordList(int listId) {
 
+        //logger.info("Deleting word list from database with id " + listId);
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
-        String filePath = getWordListById(listId).getFilePath();
+        String filePath = "";
 
         try {
 
+            dataTester.testForImpossibleData(listId);
+            filePath = getWordListById(listId).getFilePath();
             deleteGameSessionsForWordList(listId);
             tx = session.beginTransaction();
             Query query = session.createQuery("delete WordList wl where wl.listId = :listId");
@@ -328,9 +420,16 @@ public class GameDAO {
             }
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird) {
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 
+            setWordListCount();
             session.close();
 
         }
@@ -357,11 +456,14 @@ public class GameDAO {
      */
     public void deleteGameSessionsForWordList(int listId) {
 
+        //logger.info("Deleting game sessions from database with list id " + listId);
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
 
         try {
 
+            dataTester.testForImpossibleData(listId);
             tx = session.beginTransaction();
             Query query = session.createQuery("delete GameSession gs where gs.listId = :listId");
             query.setString("listId", String.valueOf(listId));
@@ -377,6 +479,12 @@ public class GameDAO {
             }
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird) {
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 
@@ -405,11 +513,13 @@ public class GameDAO {
     public void deleteOlderGameSession(int sessionId) {
 
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        DataTester dataTester = new DataTester();
         Transaction tx = null;
         String filePath = getGameSessionById(sessionId).getFilePath();
 
         try {
 
+            dataTester.testForImpossibleData(sessionId);
             tx = session.beginTransaction();
             Query query = session.createQuery("delete GameSession gs where gs.sessionId = :sessionId");
             query.setString("sessionId", String.valueOf(sessionId));
@@ -425,6 +535,12 @@ public class GameDAO {
             }
 
             hex.printStackTrace();
+            //logger.fatal("HibernateException", hex);
+
+        } catch (ImpossibleRecordDataException ird){
+
+            ird.printStackTrace();
+            //logger.fatal("ImpossibleRecordDataException", ird);
 
         } finally {
 

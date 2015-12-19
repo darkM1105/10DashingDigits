@@ -1,5 +1,6 @@
 package game_resources.persistence;
 
+//import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -12,6 +13,7 @@ import org.hibernate.service.ServiceRegistryBuilder;
  * @version     1.0     11/12/2015
  */
 public class SessionFactoryProvider {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * The self-generated shared 'SessionFactory' object.

@@ -3,6 +3,7 @@ package game_resources.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+//import org.apache.log4j.Logger;
 
 /**
  * A simple bean that represents a record in the 'game_sessions' table.

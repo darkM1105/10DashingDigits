@@ -1,8 +1,6 @@
 package game_resources.servlets;
 
 import game_resources.entity.PreGameInfoBean;
-import game_resources.entity.Username;
-import game_resources.processing.RandomizedName;
 import game_resources.processing.Randomizer;
 import java.io.*;
 import javax.servlet.*;
@@ -14,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 
 @WebServlet(
         name = "pre-game",
-        urlPatterns = {"/game"}
+        urlPatterns = {"/pregame"}
 )
 
 public class PreGameServlet extends HttpServlet {

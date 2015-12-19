@@ -13,6 +13,8 @@
           <element id="file-copy" path="C:/Program Files/Java/commons-io-1.0.jar" />
           <element id="file-copy" path="C:/Program Files/Java/jstl-1.2.jar" />
           <element id="file-copy" path="C:/Program Files/Java/gson-2.2.2.jar" />
+          <element id="file-copy" path="C:/Program Files/Java/junit-4.10.jar" />
+          <element id="library" level="application" name="log4j" />
         </element>
       </element>
     </root>

@@ -1,6 +1,6 @@
 package game_resources.servlets;
 
-import game_resources.entity.Username;
+import game_resources.entity.simple_info.Username;
 import game_resources.processing.RandomizedName;
 import java.io.*;
 import javax.servlet.*;
@@ -9,7 +9,7 @@ import javax.servlet.annotation.*;
 
 @WebServlet(
         name = "username",
-        urlPatterns = {"/username"}
+        urlPatterns = {"/game"}
 )
 
 public class UsernameServlet extends HttpServlet {

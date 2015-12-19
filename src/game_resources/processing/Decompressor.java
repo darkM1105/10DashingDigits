@@ -1,5 +1,7 @@
 package game_resources.processing;
 
+//import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,8 +15,22 @@ import java.util.List;
  * @author mrclark@madisoncollege.edu
  */
 public class Decompressor {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     private String filePath;
+    private String username = null;
+
+    public String getUsername() {
+
+        return username;
+
+    }
+
+    private void setUsername(String username) {
+
+        this.username = username;
+
+    }
 
     /**
      * Method that reads the 'GameSession' file of the corresponding filepath.
@@ -24,18 +40,24 @@ public class Decompressor {
      */
     public Integer[] processGameSession(String filePath) {
 
+        //logger.info("Reading game session data.");
+
         Integer[] array;
         Object[] tempArray;
 
         this.filePath = filePath;
         tempArray = readFile();
-        array = new Integer[tempArray.length];
+        array = new Integer[tempArray.length - 1];
 
-        for (int i = 0; i < tempArray.length; i++) {
+        for (int i = 0; i < (tempArray.length - 1); i++) {
 
             array[i] = Integer.valueOf((String) tempArray[i]);
 
         }
+
+        setUsername((String) tempArray[tempArray.length - 1]);
+
+        //logger.info("Username: " + (String) tempArray[tempArray.length - 1]);
 
         return array;
 
@@ -48,6 +70,8 @@ public class Decompressor {
      * @return      An String array representing all raw data from read file.
      */
     public String[] processWordList(String filePath) {
+
+        //logger.info("Reading word list data.");
 
         String[] array;
         Object[] tempArray;
@@ -87,10 +111,13 @@ public class Decompressor {
         } catch (IOException e) {
 
             e.printStackTrace();
+            //logger.fatal("IOException", e);
 
         }
 
         Object[] array =  tempArray.toArray(new Object[tempArray.size()]);
+
+        //logger.info("Data array size: " + array.length);
 
         return array;
 

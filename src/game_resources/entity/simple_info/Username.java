@@ -1,4 +1,4 @@
-package game_resources.entity;
+package game_resources.entity.simple_info;
 
 /**
  * A very simple method used to store and publicly share the user's username.

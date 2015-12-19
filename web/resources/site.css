@@ -1,0 +1,68 @@
+textarea{
+    font-size: 175%;
+    resize: none;
+    line-height: 250%;
+    padding: 10px;
+    padding-left: 22px;
+    padding-right: 22px;
+    background-color: darkkhaki;
+    border-color: darkblue;
+    border-width: .3em;
+}
+
+h1{
+    text-align: center;
+    background-color: chartreuse;
+    color: darkblue;
+    margin-bottom: 3.8em;
+}
+
+h4{
+    margin-bottom: 0%;
+    background-color: chartreuse;
+    width: 20%;
+    color: darkblue;
+    font-size: larger;
+}
+
+form{
+    background-color: darkblue;
+    color: cyan;
+    width: 16.2%;
+    padding:0 auto;
+    border-color: chartreuse;
+    border-width: .5em;
+    margin: 0 auto;
+}
+
+#usernameInput{
+    background-color: darkkhaki;
+    border-style: solid;
+    border-color: dodgerblue;
+}
+
+body{
+    background-color: darkcyan;
+}
+
+#content{
+    margin: 0 auto;
+}
+
+p{
+    font-size: 200%;
+    padding-left: 5em;
+    padding-right: 5em;
+    color: navy;
+}
+
+form#gameContent{
+    background-color: transparent;
+    margin: 0 auto;
+    width: 1031px;
+}
+
+#adminContent{
+    text-align: center;
+    font-size: x-large;
+}

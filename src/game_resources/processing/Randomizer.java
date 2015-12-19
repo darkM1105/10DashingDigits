@@ -1,9 +1,10 @@
 package game_resources.processing;
 
 import game_resources.entity.PreGameInfoBean;
-import game_resources.entity.Username;
+import game_resources.entity.simple_info.Username;
 import game_resources.entity.WordList;
 import game_resources.persistence.GameDAO;
+//import org.apache.log4j.Logger;
 
 /**
  * A class that generates a 'PreGameInfoBean' object based off of some randomly chosen necessary objects.
@@ -11,6 +12,7 @@ import game_resources.persistence.GameDAO;
  * @author mrclark@madisoncollege.edu
  */
 public class Randomizer {
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     private PreGameInfoBean bean = new PreGameInfoBean();
     private GameDAO dao = GameDAO.getPublicDAO();
@@ -23,35 +25,24 @@ public class Randomizer {
      */
     public PreGameInfoBean generateInfoBean() {
 
+        //logger.info("Generating InfoBean.");
+
         WordList wordList = dao.getRandomWordList();
         String usedWordList = wordList.getFilePath();
         String usedGameSession = dao.getRandomGameSession(wordList.getListId());
 
         String[] wordListArray = decompressor.processWordList(usedWordList);
         Integer[] gameSessionArray = decompressor.processGameSession(usedGameSession);
-        String opponentUsername = getUsername(usedGameSession);
 
         bean.setWordListArray(wordListArray);
         bean.setGameSessionArray(gameSessionArray);
         bean.setUsername(Username.getUsername());
-        bean.setOpponentUsername(opponentUsername);
+        bean.setOpponentUsername(decompressor.getUsername());
         bean.setListId(wordList.getListId());
 
+        //logger.info(bean.toString());
+
         return bean;
-
-    }
-
-    /**
-     * Special method that retrieves a substring representing an embedded username.
-     *
-     * @param opponentUsername  A string filepath containing the embedded username.
-     * @return      A substring representing the username.
-     */
-    private String getUsername(String opponentUsername) {
-
-        opponentUsername = opponentUsername.substring((opponentUsername.lastIndexOf("\\") + 1), opponentUsername.lastIndexOf("ts"));
-
-        return opponentUsername;
 
     }
 

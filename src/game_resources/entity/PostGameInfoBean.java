@@ -1,5 +1,7 @@
 package game_resources.entity;
 
+//import org.apache.log4j.Logger;
+
 /**
  * A simple bean that gets passed to the 'post-game' servlet in JSON format. It contains all of the necessary data to
  * create a new 'GameSession' object and therefore a new record in the 'game_sessions' table.
@@ -7,6 +9,8 @@ package game_resources.entity;
  * @author mrclark@madisoncollege.edu
  */
 public class PostGameInfoBean {
+
+    //private final Logger logger = Logger.getLogger(this.getClass());
 
     /**
      * An array of integers representing the number of milliseconds between correct keystrokes made by the user during
@@ -90,7 +94,7 @@ public class PostGameInfoBean {
      */
     public String toString() {
 
-        return "gameSession length: " + gameSession.length + "; username: " + username + "; listId: " + listId;
+        return "gameSessionArray size: " + gameSession.length + "; username: " + username + "; listId: " + listId;
 
     }
 

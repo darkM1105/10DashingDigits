@@ -13,19 +13,10 @@ import javax.servlet.annotation.*;
 
 @WebServlet(
         name = "post-game",
-        urlPatterns = {"/post-game"}
+        urlPatterns = {"/postgame"}
 )
 
 public class PostGameServlet extends HttpServlet {
-
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        /*String url = "/index.jsp";
-
-        RequestDispatcher  dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);*/
-
-    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
