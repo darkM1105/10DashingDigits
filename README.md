@@ -38,4 +38,5 @@ Final Notes: If by chance you want to recreate the database on your own system, 
 database file. Actually, before you do that, edit the values in the two for loops. First value is word lists, and the second value is
 game sessions. Don't make the second value larger than 10, otherwise it would be pointless. Be aware, it takes quite a bit of time
 for the process to complete. Going back to the security thing. I'm going to include those files because, even though it doesn't work
-for me, perhaps it will run correctly for you assuming you have the truly good setup.
+for me, perhaps it will run correctly for you assuming you have the truly good setup. Also, you may wan't to run the tests lastly.
+Some bad data might end up in the database and as a result could break the program if it is selected out of there.
